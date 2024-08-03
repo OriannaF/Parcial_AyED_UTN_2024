@@ -1,0 +1,143 @@
+ACCION ejercicioMUSICA es
+AMBIENTE
+	secMusica: secuencia de caracter
+	sentimiento, m, sentimientoIngresado, caracter,d1 , d2 , d3: caracter
+	duracion, totalCond, totalC, totalJ, totalL, totalI, totalR,c1,c2,c3: entero
+	
+	Procedimiento 		acumuladoresACero() es
+		totalTotal, totalCond, totalC, totalJ, totalL, totalI, totalR := 0
+	Fp
+	
+	Procedimiento Inicializar() es
+		ARR(secMusic) ; AVZ(secMusic,m)
+		CREAR(salida) /* LA SALIDA SE DECLARA EN AMBIENTE?? */
+		acumuladoresACero()
+		duracion := 0
+	Fp
+	
+	Procedimiento IdentificarGenero() es
+		Segun m hacer
+			"C" : genero := "C"
+			"J" : genero := "J"
+			"R" : genero := "R"
+			"L" : genero := "L"
+			"I" : genero := "I"
+		FS
+		
+	Fp
+	
+	Procedimiento AvzSec() es
+		Avz(secMusic,m)
+	Fp
+	
+	Procedimiento AvzSalida() es
+		Avz(salida,m) 
+	Fp
+	
+	Procedimiento duracion() es
+		AvzSec()
+		Segun m hacer
+			"0": duracion := 0
+			"1": duracion := 100
+			...
+			"9": duracion := 900
+		Fs
+		AvzSec()
+		Segun m hacer
+			"1": duracion := duracion  + 10
+			...
+			"9": duracion := duracion + 90
+		Fs
+		AvzSec()
+		Segun m hacer
+			"1": duracion := duracion  + 1
+			...
+			"9": duracion := duracion + 9
+		Fs
+	Fp
+	
+	Procedimiento durACaracter() es
+		c1 := duracion / 100
+		c2 := c1 / 10
+		c3 := duracion / 10
+		
+		Segun c1 hacer
+			0: d1 := "0"
+			1: d1 := "1"
+			...
+			9: d1 := "9"
+		Fs
+		
+		Segun c2 hacer
+			0: d2 := "0"
+			1: d2 := "1"
+			...
+			9: d2 := "9"
+		Fs
+		
+		Segun c3 hacer
+			0: d3 := "0"
+			1: d3 := "1"
+			...
+			9: d3 := "9"
+		Fs
+	Fp
+	
+	Procedimiento ContarGenero() es
+		Segun genero hacer
+			"I": totalI := totalI + 1
+			"C": totalC := totalC + 1
+			"R": totalR := totalR + 1
+			"J": totalJ := totalJ + 1
+			"L": totalL := totalL + 1
+		Fs
+	Fp
+	
+	Procedimiento SalidaYContar() es
+		totalCond := totalCond + 1
+		durACaracter()
+		AvzSec()
+		Repetir /* titulo de la pista */
+			AvzSalida()
+			AvzSec()
+		Hasta m = "#"
+		AVZ(salida,d1) ; AVZ(salida,d2) ; AVZ(salida,d3) /* duracion */
+		ContarGenero()
+	Fp
+	
+	Procedimiento AvzHashtag() es
+		Repetir
+			AvzSec()
+		Hasta m = "#"
+	Fp
+	
+	Procedimiento AvzYContar() es
+		ContarGenero()
+		AvzHashtag()
+	Fp
+	
+ALGORITMO	
+	Inicializar()
+	Esc("Ingrese el sentimiento")
+	Leer(sentimientoIngresado)
+	
+	Mientras NFDS(secMusica) hacer
+		IdentificarGenero() 
+		
+		Repetir
+			AvzSec() ; sentimiento := m
+			AvzSec() ; duracion()
+		
+			Si sentimiento = sentimientoIngresado Y duracion > 150 entonces
+				SalidaYContar()
+			Sino
+				AvzYContar() /* contaria lo de la segunda act */
+			Fs
+			totalTotal := totalTotal + 1
+		Hasta m = "&"
+		AvzSec()
+	FM
+	
+	/* informe con acumuladores */
+FA
+FA
